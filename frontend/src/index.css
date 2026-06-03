@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-apple-lightgray text-gray-900 font-sans antialiased transition-colors duration-500;
+  }
+  .dark body {
+    @apply bg-apple-dark text-gray-100;
+  }
+}
+
+/* Custom Glassmorphism styles */
+.glass-panel {
+  @apply bg-white/70 backdrop-blur-2xl border border-white/20 shadow-xl;
+}
+
+.dark .glass-panel {
+  @apply bg-[#1c1c1e]/70 backdrop-blur-2xl border border-white/10 shadow-2xl;
+}
+
+/* Sleek inputs */
+.apple-input {
+  @apply w-full px-4 py-3 bg-white border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-apple-blue/50 focus:border-apple-blue transition-all duration-300;
+}
+
+.dark .apple-input {
+  @apply bg-[#2c2c2e] border-[#3a3a3c] text-white focus:bg-[#3a3a3c] placeholder-gray-400;
+}
+
+/* Toggle Switch */
+.role-toggle-btn {
+  @apply flex-1 py-2 text-sm font-medium rounded-lg transition-all duration-300 flex justify-center items-center gap-2;
+}
+.role-toggle-active {
+  @apply bg-white text-black shadow-sm;
+}
+.dark .role-toggle-active {
+  @apply bg-[#3a3a3c] text-white shadow-md;
+}
+.role-toggle-inactive {
+  @apply text-gray-500 hover:text-gray-700;
+}
+.dark .role-toggle-inactive {
+  @apply text-gray-400 hover:text-gray-200;
+}
