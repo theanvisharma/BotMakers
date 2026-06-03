@@ -1,11 +1,4 @@
-# BotMakers
-Sure — a strong README can make a big difference for this kind of assignment, especially since they’re evaluating clarity and understanding.
-
-Here’s a clean, professional README you can use and tweak after you finish the project:
-
----
-
-# 🔐 Full Stack Authentication & RBAC System
+ 🔐 Full Stack Authentication & RBAC System
 
 A full-stack web application demonstrating **JWT-based authentication** and **role-based access control (RBAC)** using:
 
