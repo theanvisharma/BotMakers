@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
@@ -103,7 +103,14 @@ export const Register = () => {
                                 <Lock size={18} className="text-gray-400" />
                             </div>
                             <input
-                                {...register('password', { required: 'Password is required', minLength: 6 })}
+                                {...register('password', { 
+                                    required: 'Password is required', 
+                                    minLength: { value: 6, message: 'Minimum 6 characters' },
+                                    pattern: {
+                                        value: /^(?=.*[A-Za-z])(?=.*\d).{6,}$/,
+                                        message: 'Must contain at least 1 letter and 1 number'
+                                    }
+                                })}
                                 type="password"
                                 className="apple-input pl-11"
                                 placeholder="••••••••"

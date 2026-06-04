@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
@@ -25,7 +25,10 @@ export const Login = () => {
             navigate(from, { replace: true });
         },
         onError: (error: any) => {
-            alert(error.response?.data?.message || 'Login failed');
+            const message = error.response?.status === 401 || error.response?.status === 403 
+                ? 'Invalid credentials' 
+                : (error.response?.data?.message || 'Login failed');
+            alert(message);
         }
     });
 
