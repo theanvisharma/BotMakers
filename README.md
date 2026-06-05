@@ -1,247 +1,83 @@
- 🔐 Full Stack Authentication & RBAC System
+# Full Stack Authentication & Role-Based Access Control (RBAC) System
 
-A full-stack web application demonstrating **JWT-based authentication** and **role-based access control (RBAC)** using:
-
-* **Backend:** Java 17, Spring Boot, Spring Security, JWT, JPA
-* **Frontend:** React (TypeScript), Vite, React Query, Axios, TailwindCSS
-
----
+This is a complete full-stack web application demonstrating secure user authentication, JWT token management, and Role-Based Access Control (RBAC). 
 
 ## 🚀 Features
+- **Secure Authentication**: User registration and login utilizing JSON Web Tokens (JWT).
+- **Role-Based Authorization**: Distinct roles (`USER` and `ADMIN`) with protected API endpoints and tailored frontend experiences.
+- **Modern UI/UX**: Built with React, TailwindCSS, and stunning interactive animations (React Bits, Magic Rings, Reflective Cards, Bento grids).
+- **Form Validation**: Client-side validation using React Hook Form.
+- **Data Fetching**: Optimized API calls using TanStack React Query and Axios.
+- **API Documentation**: Auto-generated Swagger UI for backend endpoints.
 
-### 🔑 Authentication
-
-* User registration with:
-
-  * Name
-  * Email
-  * Password (encrypted using BCrypt)
-  * Role (USER / ADMIN)
-* Secure login with JWT token generation
-* Stateless authentication using JWT
-
-### 🛡️ Authorization (RBAC)
-
-* Two roles supported:
-
-  * **USER** → Access user-level content
-  * **ADMIN** → Access admin-level content
-* Protected API endpoints based on roles
-
-### 🌐 Frontend Features
-
-* Login & Registration forms
-* JWT token storage in localStorage
-* Automatic token attachment to API requests
-* Role-based UI rendering
-* Protected routes
-
----
-
-## 🏗️ Tech Stack
+## 🛠️ Technologies Used
 
 ### Backend
-
-* Java 17
-* Spring Boot
-* Spring Security
-* JWT (JSON Web Token)
-* Spring Data JPA + Hibernate
-* MapStruct
-* Lombok
-* Maven
-* Swagger / OpenAPI
+- **Java 17** & **Spring Boot 3**
+- **Spring Security** + **JWT**
+- **Spring Data JPA** + **Hibernate**
+- **H2 In-Memory Database** (Zero setup required)
+- **MapStruct** & **Lombok**
+- **Maven**
+- **Swagger / OpenAPI**
 
 ### Frontend
-
-* React + TypeScript
-* Vite
-* React Router
-* React Query
-* Axios
-* React Hook Form
-* TailwindCSS
-
----
-
-## 📁 Project Structure
-
-### Backend
-
-```
-src/main/java/com/example/
-│
-├── controller
-├── service
-├── repository
-├── entity
-├── dto
-├── security
-│   ├── JwtUtil
-│   ├── JwtFilter
-│   └── SecurityConfig
-└── mapper
-```
-
-### Frontend
-
-```
-src/
-│
-├── pages
-│   ├── Login.tsx
-│   ├── Register.tsx
-│   └── Dashboard.tsx
-│
-├── components
-├── routes
-├── services (API calls)
-├── hooks
-└── utils (auth helpers)
-```
+- **React 18** + **TypeScript**
+- **Vite**
+- **Tailwind CSS**
+- **React Router DOM**
+- **React Query** & **Axios**
+- **React Hook Form**
+- **GSAP** & **Three.js** (for animations)
 
 ---
 
-## 🔐 Authentication Flow
+## 💻 Setup Instructions
 
-1. User registers with details and role
-2. User logs in with email & password
-3. Backend validates credentials
-4. JWT token is generated and returned
-5. Frontend stores token in localStorage
-6. Token is attached to every protected API request
-7. Backend validates token and grants access based on role
+### Prerequisites
+- **Java 17** installed on your system.
+- **Node.js** (v18 or higher) and npm.
 
----
+### 1. Start the Backend
+The backend runs on an in-memory H2 database, so no external database configuration is necessary. It will build its own tables automatically on startup!
 
-## 🧭 API Endpoints
+1. Open a terminal and navigate to the `backend` directory:
+   ```bash
+   cd backend
+   ```
+2. Run the Spring Boot application using the Maven wrapper:
+   ```bash
+   # On Windows:
+   .\mvnw clean spring-boot:run
+   
+   # On Mac/Linux:
+   ./mvnw clean spring-boot:run
+   ```
+3. The server will start on `http://localhost:8080`.
+4. *Optional:* You can view the API documentation at `http://localhost:8080/swagger-ui/index.html`.
 
-### Public
-
-```
-GET /api/public
-```
-
-### User Access
-
-```
-GET /api/user
-```
-
-### Admin Access
-
-```
-GET /api/admin
-```
-
-### Authentication
-
-```
-POST /api/auth/register
-POST /api/auth/login
-```
-
----
-
-## 🧪 Role-Based Access Rules
-
-| Role  | Access                 |
-| ----- | ---------------------- |
-| USER  | User endpoints only    |
-| ADMIN | User + Admin endpoints |
+### 2. Start the Frontend
+1. Open a **new, separate** terminal window and navigate to the `frontend` directory:
+   ```bash
+   cd frontend
+   ```
+2. Install the required dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the Vite development server:
+   ```bash
+   npm run dev
+   ```
+4. The frontend will be available at `http://localhost:5173`. Open this link in your browser.
 
 ---
 
-## 🎨 Frontend Pages
+## 🧪 Testing the Application
 
-* `/register` → Create account
-* `/login` → Authenticate user
-* `/dashboard` → Role-based content display
+1. **Register a User**: Go to `http://localhost:5173/register`. Select the "Member" role, enter your details, and submit. You will be routed to the User Dashboard.
+2. **Register an Admin**: Go back to the register page. Select the "Admin" role. **Note: Ensure you use a DIFFERENT email address**, as emails must be unique. You will be routed to the Admin Dashboard.
+3. **Log In / Log Out**: Test logging out using the top-right button, and logging back in with your newly created credentials to see the routing system automatically direct you to the correct dashboard based on your role.
 
----
-
-## 🔒 Security Implementation
-
-* Passwords encrypted using BCrypt
-* JWT used for stateless authentication
-* Spring Security filters protect endpoints
-* Role-based authorization using `@PreAuthorize` / config rules
-* Token validation on every request
-
----
-
-## ⚙️ Setup Instructions
-
-### Backend
-
-```bash
-cd backend
-mvn clean install
-mvn spring-boot:run
-```
-
-Backend runs at:
-
-```
-http://localhost:8080
-```
-
-Swagger UI:
-
-```
-http://localhost:8080/swagger-ui.html
-```
-
----
-
-### Frontend
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-Frontend runs at:
-
-```
-http://localhost:5173
-```
-
----
-
-## 📌 Environment Variables
-
-### Backend
-
-```
-JWT_SECRET=your_secret_key
-DB_URL=your_database_url
-DB_USERNAME=your_username
-DB_PASSWORD=your_password
-```
-
----
-
-## 🧠 Key Learnings
-
-* JWT authentication flow
-* Spring Security configuration
-* Role-based access control
-* Full-stack authentication architecture
-* Secure API design principles
-
----
-
-## ⚠️ Notes
-
-* This project uses JWT-based stateless authentication
-* Frontend stores token in localStorage (for demo purposes)
-* Role-based access is enforced both on frontend and backend
----
-
-## 📄 License
-
-This project is created as part of an internship assignment.
-
----
+## 👨‍💻 Author
+Made by **Anvi Sharma** • `theanvisharma@gmail.com`
