@@ -34,3 +34,8 @@ build/
 ### Environment ###
 .env
 .env.*
+
+### Secrets and Config ###
+application.yml
+application.properties
+*secret*
