@@ -1,14 +1,15 @@
-
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
 import type { AuthResponse } from '../types';
-import { Mail, Lock } from 'lucide-react';
+import { ShieldCheck, ArrowRight, User } from 'lucide-react';
+import { useState } from 'react';
 
 export const Login = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const [role, setRole] = useState('USER');
     const navigate = useNavigate();
     const location = useLocation();
     const { login } = useAuth();
@@ -17,7 +18,8 @@ export const Login = () => {
 
     const loginMutation = useMutation({
         mutationFn: async (data: any) => {
-            const response = await api.post<AuthResponse>('/auth/login', data);
+            // We pass the selected role to the login request (optional, backend usually infers from email)
+            const response = await api.post<AuthResponse>('/auth/login', { ...data, role });
             return response.data;
         },
         onSuccess: (data) => {
@@ -37,67 +39,101 @@ export const Login = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
-            {/* Background subtle gradients for dark mode */}
-            <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-apple-blue/20 blur-[120px] pointer-events-none hidden dark:block"></div>
-            <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-purple-600/20 blur-[120px] pointer-events-none hidden dark:block"></div>
-
-            <div className="w-full max-w-md glass-panel rounded-3xl p-8 sm:p-10 z-10 relative">
-                <div className="text-center mb-10">
-                    <h1 className="text-3xl font-semibold tracking-tight mb-2">Welcome Back</h1>
-                    <p className="text-apple-gray text-sm">Sign in to your account</p>
+        <div className="min-h-screen bg-[#0A0A0A] flex flex-col items-center justify-center p-4 font-sans text-white">
+            <div className="w-full max-w-[400px] bg-[#0A0A0A] p-2 flex flex-col items-center relative">
+                
+                {/* Shield Icon */}
+                <div className="w-16 h-16 bg-[#11161F] rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+                    <ShieldCheck size={28} className="text-blue-500" />
                 </div>
 
-                <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
+                {/* Headers */}
+                <h1 className="text-3xl md:text-4xl font-serif font-bold text-center leading-tight mb-2">
+                    Welcome
+                </h1>
+                <p className="text-[#5A6F8F] text-sm mb-6">Select your role and sign in</p>
+
+                {/* Role Switcher */}
+                <div className="w-full bg-[#1C1C1E] p-1 rounded-xl flex mb-6">
+                    <button
+                        type="button"
+                        onClick={() => setRole('USER')}
+                        className={`flex-1 py-2.5 text-sm font-semibold rounded-lg flex justify-center items-center gap-2 transition-all duration-300 ${
+                            role === 'USER' 
+                            ? 'bg-black text-blue-500 shadow-md' 
+                            : 'text-gray-500 hover:text-gray-400'
+                        }`}
+                    >
+                        <User size={16} /> Member
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => setRole('ADMIN')}
+                        className={`flex-1 py-2.5 text-sm font-semibold rounded-lg flex justify-center items-center gap-2 transition-all duration-300 ${
+                            role === 'ADMIN' 
+                            ? 'bg-black text-blue-500 shadow-md' 
+                            : 'text-gray-500 hover:text-gray-400'
+                        }`}
+                    >
+                        <ShieldCheck size={16} /> Admin
+                    </button>
+                </div>
+
+
+
+                <form className="w-full space-y-5" onSubmit={handleSubmit(onSubmit)}>
                     <div>
-                        <label className="block text-xs font-semibold text-apple-gray uppercase tracking-wider mb-2">Email Address</label>
-                        <div className="relative">
-                            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                <Mail size={18} className="text-gray-400" />
-                            </div>
-                            <input
-                                {...register('email', { required: 'Email is required' })}
-                                type="email"
-                                className="apple-input pl-11"
-                                placeholder="name@example.com"
-                            />
-                        </div>
-                        {errors.email && <span className="text-red-500 text-xs mt-1 block">{errors.email.message as string}</span>}
+                        <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1.5 ml-1">
+                            Email Address
+                        </label>
+                        <input
+                            {...register('email', { required: 'Email is required' })}
+                            type="email"
+                            className="w-full bg-[#1A1A1A] border border-[#2A2A2A] rounded-xl px-4 py-3.5 text-white text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors placeholder-gray-600"
+                            placeholder="name@example.com"
+                        />
+                        {errors.email && <span className="text-red-500 text-xs mt-1 ml-1 block">{errors.email.message as string}</span>}
                     </div>
 
                     <div>
-                        <div className="flex justify-between items-center mb-2">
-                            <label className="block text-xs font-semibold text-apple-gray uppercase tracking-wider">Password</label>
-                            <a href="#" className="text-xs font-medium text-apple-blue hover:underline">Forgot?</a>
+                        <div className="flex justify-between items-center mb-1.5 ml-1 mr-1">
+                            <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+                                Password
+                            </label>
+                            <a href="#" className="text-[10px] font-medium text-[#3B82F6] hover:underline">
+                                Forgot?
+                            </a>
                         </div>
-                        <div className="relative">
-                            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                <Lock size={18} className="text-gray-400" />
-                            </div>
-                            <input
-                                {...register('password', { required: 'Password is required' })}
-                                type="password"
-                                className="apple-input pl-11"
-                                placeholder="••••••••"
-                            />
-                        </div>
-                        {errors.password && <span className="text-red-500 text-xs mt-1 block">{errors.password.message as string}</span>}
+                        <input
+                            {...register('password', { required: 'Password is required' })}
+                            type="password"
+                            className="w-full bg-[#1A1A1A] border border-[#2A2A2A] rounded-xl px-4 py-3.5 text-white text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors placeholder-gray-600"
+                            placeholder="••••••••"
+                        />
+                        {errors.password && <span className="text-red-500 text-xs mt-1 ml-1 block">{errors.password.message as string}</span>}
                     </div>
 
                     <button
                         type="submit"
                         disabled={loginMutation.isPending}
-                        className="w-full mt-6 bg-apple-blue hover:bg-blue-600 text-white font-semibold py-3 px-4 rounded-xl transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full mt-8 bg-[#3B82F6] hover:bg-blue-600 text-white font-semibold py-3.5 px-4 rounded-xl transition-colors duration-300 disabled:opacity-50 flex justify-center items-center gap-2 shadow-[0_0_15px_rgba(59,130,246,0.3)]"
                     >
-                        {loginMutation.isPending ? 'Signing in...' : 'Sign In'}
+                        {loginMutation.isPending ? 'Processing...' : (
+                            <>
+                                <ArrowRight size={18} /> Sign In as {role === 'USER' ? 'Member' : 'Admin'}
+                            </>
+                        )}
                     </button>
                 </form>
 
-                <div className="mt-8 text-center text-sm text-apple-gray">
-                    Don't have an account?{' '}
-                    <Link to="/register" className="text-apple-blue font-medium hover:underline">
-                        Create one
+                <div className="mt-6 text-center">
+                    <Link to="/register" className="text-xs text-[#5A6F8F] hover:text-white transition-colors">
+                        Create an account
                     </Link>
+                </div>
+
+                <div className="mt-12 text-[9px] font-bold tracking-[0.2em] text-gray-600">
+                    SECURE • PROFESSIONAL • VERIFIED
                 </div>
             </div>
         </div>

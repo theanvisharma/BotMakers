@@ -5,6 +5,8 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { Dashboard } from './pages/Dashboard';
+import { AdminDashboard } from './pages/AdminDashboard';
+import { MemberDashboard } from './pages/MemberDashboard';
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
           
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/admin-dashboard" element={<AdminDashboard />} />
+            <Route path="/member-dashboard" element={<MemberDashboard />} />
           </Route>
           
           <Route path="*" element={<Navigate to="/login" replace />} />

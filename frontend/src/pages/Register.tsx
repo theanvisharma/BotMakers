@@ -1,11 +1,10 @@
-
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
 import type { AuthResponse } from '../types';
-import { User, ShieldCheck, Mail, Lock, User as UserIcon } from 'lucide-react';
+import { User, ShieldCheck, ArrowRight } from 'lucide-react';
 
 export const Register = () => {
     const { register, handleSubmit, formState: { errors }, setValue, watch } = useForm({
@@ -34,105 +33,111 @@ export const Register = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
-            {/* Background subtle gradients for dark mode */}
-            <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-apple-blue/20 blur-[120px] pointer-events-none hidden dark:block"></div>
-            <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-purple-600/20 blur-[120px] pointer-events-none hidden dark:block"></div>
-
-            <div className="w-full max-w-md glass-panel rounded-3xl p-8 sm:p-10 z-10 relative">
-                <div className="text-center mb-8">
-                    <h1 className="text-3xl font-semibold tracking-tight mb-2">Create Account</h1>
-                    <p className="text-apple-gray text-sm">Select your role and sign up</p>
+        <div className="min-h-screen bg-[#0A0A0A] flex flex-col items-center justify-center p-4 font-sans text-white">
+            <div className="w-full max-w-[400px] bg-[#0A0A0A] p-2 flex flex-col items-center relative">
+                
+                {/* Shield Icon */}
+                <div className="w-16 h-16 bg-[#11161F] rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+                    <ShieldCheck size={28} className="text-blue-500" />
                 </div>
 
-                {/* Role Segmented Control */}
-                <div className="p-1 bg-gray-100 dark:bg-[#1c1c1e] rounded-xl flex mb-8 border border-gray-200 dark:border-white/10">
+                {/* Headers */}
+                <h1 className="text-3xl md:text-4xl font-serif font-bold text-center leading-tight mb-2">
+                    Welcome
+                </h1>
+                <p className="text-[#5A6F8F] text-sm mb-6">Select your role and sign up</p>
+
+                {/* Role Switcher */}
+                <div className="w-full bg-[#1C1C1E] p-1 rounded-xl flex mb-6">
                     <button
                         type="button"
                         onClick={() => setValue('role', 'USER')}
-                        className={`role-toggle-btn ${currentRole === 'USER' ? 'role-toggle-active' : 'role-toggle-inactive'}`}
+                        className={`flex-1 py-2.5 text-sm font-semibold rounded-lg flex justify-center items-center gap-2 transition-all duration-300 ${
+                            currentRole === 'USER' 
+                            ? 'bg-black text-blue-500 shadow-md' 
+                            : 'text-gray-500 hover:text-gray-400'
+                        }`}
                     >
                         <User size={16} /> Member
                     </button>
                     <button
                         type="button"
                         onClick={() => setValue('role', 'ADMIN')}
-                        className={`role-toggle-btn ${currentRole === 'ADMIN' ? 'role-toggle-active' : 'role-toggle-inactive'}`}
+                        className={`flex-1 py-2.5 text-sm font-semibold rounded-lg flex justify-center items-center gap-2 transition-all duration-300 ${
+                            currentRole === 'ADMIN' 
+                            ? 'bg-black text-blue-500 shadow-md' 
+                            : 'text-gray-500 hover:text-gray-400'
+                        }`}
                     >
                         <ShieldCheck size={16} /> Admin
                     </button>
                 </div>
 
-                <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
+
+                <form className="w-full space-y-5" onSubmit={handleSubmit(onSubmit)}>
                     <div>
-                        <label className="block text-xs font-semibold text-apple-gray uppercase tracking-wider mb-2">Full Name</label>
-                        <div className="relative">
-                            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                <UserIcon size={18} className="text-gray-400" />
-                            </div>
-                            <input
-                                {...register('name', { required: 'Name is required' })}
-                                type="text"
-                                className="apple-input pl-11"
-                                placeholder="John Doe"
-                            />
-                        </div>
-                        {errors.name && <span className="text-red-500 text-xs mt-1 block">{errors.name.message as string}</span>}
+                        <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1.5 ml-1">
+                            Full Name
+                        </label>
+                        <input
+                            {...register('name', { required: 'Name is required' })}
+                            type="text"
+                            className="w-full bg-[#1A1A1A] border border-[#2A2A2A] rounded-xl px-4 py-3.5 text-white text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors placeholder-gray-600"
+                            placeholder="John Doe"
+                        />
+                        {errors.name && <span className="text-red-500 text-xs mt-1 ml-1 block">{errors.name.message as string}</span>}
                     </div>
 
                     <div>
-                        <label className="block text-xs font-semibold text-apple-gray uppercase tracking-wider mb-2">Email Address</label>
-                        <div className="relative">
-                            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                <Mail size={18} className="text-gray-400" />
-                            </div>
-                            <input
-                                {...register('email', { required: 'Email is required' })}
-                                type="email"
-                                className="apple-input pl-11"
-                                placeholder="name@example.com"
-                            />
-                        </div>
-                        {errors.email && <span className="text-red-500 text-xs mt-1 block">{errors.email.message as string}</span>}
+                        <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1.5 ml-1">
+                            Email Address
+                        </label>
+                        <input
+                            {...register('email', { required: 'Email is required' })}
+                            type="email"
+                            className="w-full bg-[#1A1A1A] border border-[#2A2A2A] rounded-xl px-4 py-3.5 text-white text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors placeholder-gray-600"
+                            placeholder="name@example.com"
+                        />
+                        {errors.email && <span className="text-red-500 text-xs mt-1 ml-1 block">{errors.email.message as string}</span>}
                     </div>
 
                     <div>
-                        <label className="block text-xs font-semibold text-apple-gray uppercase tracking-wider mb-2">Password</label>
-                        <div className="relative">
-                            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                <Lock size={18} className="text-gray-400" />
-                            </div>
-                            <input
-                                {...register('password', { 
-                                    required: 'Password is required', 
-                                    minLength: { value: 6, message: 'Minimum 6 characters' },
-                                    pattern: {
-                                        value: /^(?=.*[A-Za-z])(?=.*\d).{6,}$/,
-                                        message: 'Must contain at least 1 letter and 1 number'
-                                    }
-                                })}
-                                type="password"
-                                className="apple-input pl-11"
-                                placeholder="••••••••"
-                            />
-                        </div>
-                        {errors.password && <span className="text-red-500 text-xs mt-1 block">{errors.password.message as string}</span>}
+                        <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1.5 ml-1">
+                            Password
+                        </label>
+                        <input
+                            {...register('password', { 
+                                required: 'Password is required', 
+                                minLength: { value: 6, message: 'Minimum 6 characters' }
+                            })}
+                            type="password"
+                            className="w-full bg-[#1A1A1A] border border-[#2A2A2A] rounded-xl px-4 py-3.5 text-white text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors placeholder-gray-600"
+                            placeholder="••••••••"
+                        />
+                        {errors.password && <span className="text-red-500 text-xs mt-1 ml-1 block">{errors.password.message as string}</span>}
                     </div>
 
                     <button
                         type="submit"
                         disabled={registerMutation.isPending}
-                        className="w-full mt-6 bg-apple-blue hover:bg-blue-600 text-white font-semibold py-3 px-4 rounded-xl transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center gap-2"
+                        className="w-full mt-8 bg-[#3B82F6] hover:bg-blue-600 text-white font-semibold py-3.5 px-4 rounded-xl transition-colors duration-300 disabled:opacity-50 flex justify-center items-center gap-2 shadow-[0_0_15px_rgba(59,130,246,0.3)]"
                     >
-                        {registerMutation.isPending ? 'Processing...' : 'Continue'}
+                        {registerMutation.isPending ? 'Processing...' : (
+                            <>
+                                <ArrowRight size={18} /> Sign Up
+                            </>
+                        )}
                     </button>
                 </form>
 
-                <div className="mt-8 text-center text-sm text-apple-gray">
-                    Already have an account?{' '}
-                    <Link to="/login" className="text-apple-blue font-medium hover:underline">
-                        Sign in
+                <div className="mt-6 text-center">
+                    <Link to="/login" className="text-xs text-[#5A6F8F] hover:text-white transition-colors">
+                        Back to Login
                     </Link>
+                </div>
+
+                <div className="mt-12 text-[9px] font-bold tracking-[0.2em] text-gray-600">
+                    SECURE • PROFESSIONAL • VERIFIED
                 </div>
             </div>
         </div>
